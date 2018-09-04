@@ -32,6 +32,9 @@ private:
 	static void		Create			(const FunctionCallbackInfo<Value>& args);
 	static void		Destroy			(const FunctionCallbackInfo<Value>& args);
 
+	static void		Load			(const FunctionCallbackInfo<Value>& args);
+	static void		Find			(const FunctionCallbackInfo<Value>& args);
+
 	static void		GetWidth		(const FunctionCallbackInfo<Value>& args);
 	static void		GetHeight		(const FunctionCallbackInfo<Value>& args);
 	static void		GetLength		(const FunctionCallbackInfo<Value>& args);

@@ -49,6 +49,40 @@ void ImageWrap::Destroy (const FunctionCallbackInfo<Value>& args)
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void ImageWrap::Load(const FunctionCallbackInfo<Value>& args)
+{
+	ISOWRAP(Image, args.Holder());
+
+	// Check for valid arguments
+	if (!args[0]->IsString() &&
+		!args[0]->IsUndefined())
+		THROW(Type, "Invalid arguments");
+
+	const char* filename = 0;
+	String::Utf8Value value(args[0]);
+	if (args[0]->IsString())
+		filename = *value ? *value : "";
+
+	RETURN_BOOL(mImage->Load(filename));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void ImageWrap::Find(const FunctionCallbackInfo<Value>& args)
+{
+	ISOWRAP(Image, args.Holder());
+
+	// Check whether the argument is another image
+	auto other = UnwrapRobot<ImageWrap>(args[0]);
+	if (!other) 
+		THROW(Type, "Invalid arguments");
+
+	Point position = mImage->Find(other->mImage);
+	RETURN_POINT(position.X, position.Y);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 void ImageWrap::GetWidth (const FunctionCallbackInfo<Value>& args)
 {
 	ISOWRAP (Image, args.Holder());
@@ -240,6 +274,9 @@ void ImageWrap::Initialize (Handle<Object> exports)
 
 	NODE_SET_PROTOTYPE_METHOD (tpl, "_create",    Create   );
 	NODE_SET_PROTOTYPE_METHOD (tpl,  "destroy",   Destroy  );
+
+	NODE_SET_PROTOTYPE_METHOD (tpl,	 "load",	  Load);
+	NODE_SET_PROTOTYPE_METHOD (tpl,  "find",	  Find);
 
 	NODE_SET_PROTOTYPE_METHOD (tpl,  "getWidth",  GetWidth );
 	NODE_SET_PROTOTYPE_METHOD (tpl,  "getHeight", GetHeight);
