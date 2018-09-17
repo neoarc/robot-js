@@ -1,7 +1,7 @@
 {
-	"name"				: "robot-js",
-	"version"			: "2.0.0",
-	"robot"				: "2.0.0",
+	"name"				: "neoarc-robot-js",
+	"version"			: "2.0.1",
+	"robot"				: "2.0.1",
 	"license"			: "Zlib",
 	"main"				: "lib/robot.js",
 	"gypfile"			: true,
